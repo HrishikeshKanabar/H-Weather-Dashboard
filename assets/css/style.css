@@ -1,0 +1,12 @@
+
+
+.header{
+    margin: 10px;
+    font-size: 12px;
+    padding:10px;
+    height:55px;
+    color:white;
+    background-image:url("../images/bg-image.jpg");
+    font-family: "Train One", cursive;
+}
+
