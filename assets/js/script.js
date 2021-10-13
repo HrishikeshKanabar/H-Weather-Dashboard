@@ -6,6 +6,9 @@ Description :
   - Display in UI
 */
 
+var listOfStoredCity=[];
+var ul = document.getElementById("city-list");
+
 /*
 #######################################################################################
 Function name : getCoordinatesForSearchedCity
@@ -50,15 +53,18 @@ function getWeatherFromCoordinates(lat,lon,city){
     fetch(apiUrl)
       .then(response => response.json())
       .then(data => {
-        //console.log('Success:', data);
+        console.log('Success:', data);
+        setInLocalStorage(city);
         weatherCoords.date = moment().format("(L)");
-        weatherCoords.city=city.charAt(0).toUpperCase()+ city.slice(1);;
+        weatherCoords.city=city.charAt(0).toUpperCase()+ city.slice(1);
         weatherCoords.temp=data.current.temp+' \xB0F';
         weatherCoords.wind=data.current.wind_speed + ' MPH';
         weatherCoords.humidity=data.current.humidity+' %';
         weatherCoords.uvi=data.current.uvi;
         weatherCoords.iconUrl ='http://openweathermap.org/img/wn/'+data.current.weather[0].icon+'.png';
         getUIOfCurrentWeather(weatherCoords);
+        ul.textContent="";
+        getUIFromLocalStorage();
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -114,6 +120,53 @@ function getUIOfCurrentWeather(currentWeather){
 
 }
 
+function setInLocalStorage(cityName){
+
+
+    var checkLocalStore = JSON.parse(localStorage.getItem('storedCities'));
+   
+
+    if(checkLocalStore!=null){
+        
+        checkLocalStore.push(cityName.toUpperCase());
+        console.log(checkLocalStore)
+        localStorage.setItem('storedCities',JSON.stringify(checkLocalStore));
+    }else{
+        
+        listOfStoredCity.push(cityName.toUpperCase());
+        localStorage.setItem('storedCities', JSON.stringify(listOfStoredCity));
+    }
+       
+    
+
+}
+
+function getUIFromLocalStorage(){
+
+    var storedCities = JSON.parse(localStorage.getItem('storedCities')); 
+    // Create a Set
+    const uniqueStoredCities = new Set();
+      
+     for (let city in storedCities){
+        uniqueStoredCities.add(storedCities[city]);
+     }
+     
+     console.log(uniqueStoredCities);
+
+     for (const Ucity of uniqueStoredCities.values()){  
+        var li = document.createElement("li");
+        li.classList.add("list-group-item");
+        li.classList.add("list-group-item-secondary");
+        li.classList.add("list-group-item-action");
+        li.textContent=Ucity.charAt(0).toUpperCase()+ Ucity.toLowerCase().slice(1);
+        ul.appendChild(li); 
+     }
+           
+
+      
+        
+}
+
 searchButton.addEventListener('click', e => {
     e.preventDefault();
     let cityName =document.getElementById('city').value;
@@ -121,3 +174,13 @@ searchButton.addEventListener('click', e => {
  
     
 });
+
+ul.addEventListener('click', e => {
+    e.preventDefault();
+     let citName= e.target.textContent;
+     getCoordinatesForSearchedCity(citName);
+ 
+    
+});
+
+getUIFromLocalStorage();

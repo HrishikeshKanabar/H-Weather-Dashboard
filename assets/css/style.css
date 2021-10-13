@@ -16,3 +16,12 @@
     width:100%;
 }
 
+li {
+    margin-top:5px;
+    font-weight: bolder;
+}
+
+.list-group-item-action{
+    text-align: center;
+}
+
