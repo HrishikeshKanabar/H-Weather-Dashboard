@@ -1,27 +1,26 @@
-.header{
-    margin: 10px;
-    font-size: 12px;
-    padding:10px;
-    height:55px;
-    color:white;
-    background-image:url("../images/bg-image.jpg");
-    font-family: "Train One", cursive;
+.header {
+  margin: 10px;
+  font-size: 12px;
+  padding: 10px;
+  height: 55px;
+  color: white;
+  background-image: url("../images/bg-image.jpg");
+  font-family: "Train One", cursive;
 }
 
-.search-button{
-    width:100%;
+.search-button {
+  width: 100%;
 }
 
-.city-input{
-    width:100%;
+.city-input {
+  width: 100%;
 }
 
 li {
-    margin-top:5px;
-    font-weight: bolder;
+  margin-top: 5px;
+  font-weight: bolder;
 }
 
-.list-group-item-action{
-    text-align: center;
+.list-group-item-action {
+  text-align: center;
 }
-
