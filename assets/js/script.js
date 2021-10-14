@@ -122,7 +122,14 @@ function getUIOfCurrentWeather(currentWeather) {
   carSubTitleWind.innerHTML = "Wind: " + currentWeather.wind + "<br/><br/>";
   carSubTitleHum.innerHTML =
     "Humidity: " + currentWeather.humidity + "<br/><br/>";
-  carSubTitleUv.innerHTML = "UV Index: " + currentWeather.uvi + "<br/><br/>";
+  if(currentWeather.uvi<=2.5){
+    carSubTitleUv.innerHTML = "UV Index: " + "<span class='uvInd' style='background-color:green;width:10px'>"+currentWeather.uvi+"</span>" + "<br/><br/>";
+  }else if(currentWeather.uvi > 2.5 && currentWeather.uvi<=5.5){
+    carSubTitleUv.innerHTML = "UV Index: " + "<span class='uvInd' style='background-color:yellow''>"+currentWeather.uvi+"</span>" + "<br/><br/>";
+  }else{
+    carSubTitleUv.innerHTML = "UV Index: " + "<span  class='uvInd' style='background-color:red''>"+currentWeather.uvi+"<span>";
+  }
+  
   cardTitle.appendChild(icon);
   cardBodyDiv.appendChild(cardTitle);
   cardBodyDiv.appendChild(carSubTitleTemp);
