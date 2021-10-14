@@ -6,7 +6,7 @@
 
 # View Demo
 
-https://hrishikeshkanabar.github.io/Web-Weather-Dashboard/
+https://hrishikeshkanabar.github.io/H-Weather-Dashboard/
 
 # Web Application (how to use)
 
@@ -20,11 +20,11 @@ https://hrishikeshkanabar.github.io/Web-Weather-Dashboard/
 
  Web Application        
 :--------------------------------:|
-![Web Application ]()      
+![Web Application ](https://github.com/HrishikeshKanabar/H-Weather-Dashboard/blob/main/assets/images/todatweath.JPG)      
 
 Web Application Dashboard Check For Empty Cities  
 :--------------------------------:|
-![iWeb Application Prompt]()  
+![iWeb Application Prompt](https://github.com/HrishikeshKanabar/H-Weather-Dashboard/blob/main/assets/images/prompt.JPG)  
 
 ## Requirement achieved 
 
@@ -58,7 +58,7 @@ Repository Quality: 13%
 
 ## Downloads and running code locally
 
-Step-1 git clone 
+Step-1 git clone https://github.com/HrishikeshKanabar/H-Weather-Dashboard.git
 
 Step-2 open folder in VS Code
 
