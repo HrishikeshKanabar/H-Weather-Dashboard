@@ -21,6 +21,11 @@ Description :
 */
 
 function getCoordinatesForSearchedCity(city) {
+  console.log(city);
+  if (city == undefined || city == "") {
+    alert("City name cannot be empty");
+    return;
+  }
   var apiUrl =
     "https://api.openweathermap.org/data/2.5/weather?q=" +
     city +
@@ -90,7 +95,6 @@ Description :
 */
 
 function getUIOfCurrentWeather(currentWeather) {
-  
   currWeathContainer.textContent = "";
   var cardDiv = document.createElement("div");
   cardDiv.classList.add("card");
@@ -122,14 +126,28 @@ function getUIOfCurrentWeather(currentWeather) {
   carSubTitleWind.innerHTML = "Wind: " + currentWeather.wind + "<br/><br/>";
   carSubTitleHum.innerHTML =
     "Humidity: " + currentWeather.humidity + "<br/><br/>";
-  if(currentWeather.uvi<=2.5){
-    carSubTitleUv.innerHTML = "UV Index: " + "<span class='uvInd' style='background-color:green;width:10px'>"+currentWeather.uvi+"</span>" + "<br/><br/>";
-  }else if(currentWeather.uvi > 2.5 && currentWeather.uvi<=5.5){
-    carSubTitleUv.innerHTML = "UV Index: " + "<span class='uvInd' style='background-color:yellow''>"+currentWeather.uvi+"</span>" + "<br/><br/>";
-  }else{
-    carSubTitleUv.innerHTML = "UV Index: " + "<span  class='uvInd' style='background-color:red''>"+currentWeather.uvi+"<span>";
+  if (currentWeather.uvi <= 2.5) {
+    carSubTitleUv.innerHTML =
+      "UV Index: " +
+      "<span class='uvInd' style='background-color:green;width:10px'>" +
+      currentWeather.uvi +
+      "</span>" +
+      "<br/><br/>";
+  } else if (currentWeather.uvi > 2.5 && currentWeather.uvi <= 5.5) {
+    carSubTitleUv.innerHTML =
+      "UV Index: " +
+      "<span class='uvInd' style='background-color:yellow''>" +
+      currentWeather.uvi +
+      "</span>" +
+      "<br/><br/>";
+  } else {
+    carSubTitleUv.innerHTML =
+      "UV Index: " +
+      "<span  class='uvInd' style='background-color:red''>" +
+      currentWeather.uvi +
+      "<span>";
   }
-  
+
   cardTitle.appendChild(icon);
   cardBodyDiv.appendChild(cardTitle);
   cardBodyDiv.appendChild(carSubTitleTemp);
@@ -193,7 +211,6 @@ function getUIFromLocalStorage() {
   }
 }
 
-
 /*
 #######################################################################################
 Function name : getUIForFiveWeatherForecast
@@ -203,61 +220,56 @@ Description :
 #######################################################################################
 */
 
-function getUIForFiveWeatherForecast(data){
-
-  fiveDay.textContent="";
+function getUIForFiveWeatherForecast(data) {
+  fiveDay.textContent = "";
   var fiveForecastTitle = document.createElement("h5");
-  fiveForecastTitle.textContent="5-Day Forecast";
+  fiveForecastTitle.textContent = "5-Day Forecast";
   fiveDay.appendChild(fiveForecastTitle);
-    for(let i=1;i<6;i++){
-
-        
-        let resData = data.daily[i];
-        console.log(resData);
-        var divCol = document.createElement("div");
-        divCol.classList.add("col-sm-2");
-        var divCard = document.createElement("div");
-        divCard.classList.add("card");
-        divCard.classList.add("five");
-        var divCardBody = document.createElement("div");
-        divCardBody.classList.add("card-body")
-        var cardTitle = document.createElement("h6");
-        cardTitle.classList.add("card-title");
-        cardTitle.textContent =new Date((resData.dt)*1000).getDate()
-        +"/"+new Date((resData.dt)*1000).getMonth()
-        +"/"+new Date((resData.dt)*1000).getFullYear();
-        var carIcon = document.createElement("img");
-        var carIconUrl ="http://openweathermap.org/img/wn/" +
-        resData.weather[0].icon +
-        ".png" ;
-        carIcon.setAttribute("src", carIconUrl);
-        var carTemp = document.createElement("p");
-        carTemp.classList.add("card-subtitle");
-        carTemp.classList.add("mb-2");
-        var temp = Math.round((resData.temp.max)+(resData.temp.min))/2;
-        carTemp.textContent ="Temp: "+ temp + " \xB0F" ;
-        var carWin = document.createElement("p");
-        carWin.classList.add("card-subtitle");
-        carWin.classList.add("mb-2");
-        carWin.textContent="wind: "+ resData.wind_speed+" MPH";
-        var carHum = document.createElement("p");
-        carHum.classList.add("card-subtitle");
-        carHum.classList.add("mb-2");
-        carHum.textContent="Humidity: "+ resData.humidity+" %";
-        divCardBody.appendChild(cardTitle);
-        divCardBody.appendChild(carIcon);
-        divCardBody.appendChild(carTemp);
-        divCardBody.appendChild(carWin);
-        divCardBody.appendChild(carHum);
-        divCard.appendChild(divCardBody)
-        divCol.appendChild(divCard)
-        fiveDay.appendChild(divCol);
-        currWeathContainer.appendChild(fiveDay);
-        
-    }
-
-    
-
+  for (let i = 1; i < 6; i++) {
+    let resData = data.daily[i];
+    console.log(resData);
+    var divCol = document.createElement("div");
+    divCol.classList.add("col-sm-2");
+    var divCard = document.createElement("div");
+    divCard.classList.add("card");
+    divCard.classList.add("five");
+    var divCardBody = document.createElement("div");
+    divCardBody.classList.add("card-body");
+    var cardTitle = document.createElement("h6");
+    cardTitle.classList.add("card-title");
+    cardTitle.textContent =
+      new Date(resData.dt * 1000).getDate() +
+      "/" +
+      new Date(resData.dt * 1000).getMonth() +
+      "/" +
+      new Date(resData.dt * 1000).getFullYear();
+    var carIcon = document.createElement("img");
+    var carIconUrl =
+      "http://openweathermap.org/img/wn/" + resData.weather[0].icon + ".png";
+    carIcon.setAttribute("src", carIconUrl);
+    var carTemp = document.createElement("p");
+    carTemp.classList.add("card-subtitle");
+    carTemp.classList.add("mb-2");
+    var temp = Math.round(resData.temp.max + resData.temp.min) / 2;
+    carTemp.textContent = "Temp: " + temp + " \xB0F";
+    var carWin = document.createElement("p");
+    carWin.classList.add("card-subtitle");
+    carWin.classList.add("mb-2");
+    carWin.textContent = "wind: " + resData.wind_speed + " MPH";
+    var carHum = document.createElement("p");
+    carHum.classList.add("card-subtitle");
+    carHum.classList.add("mb-2");
+    carHum.textContent = "Humidity: " + resData.humidity + " %";
+    divCardBody.appendChild(cardTitle);
+    divCardBody.appendChild(carIcon);
+    divCardBody.appendChild(carTemp);
+    divCardBody.appendChild(carWin);
+    divCardBody.appendChild(carHum);
+    divCard.appendChild(divCardBody);
+    divCol.appendChild(divCard);
+    fiveDay.appendChild(divCol);
+    currWeathContainer.appendChild(fiveDay);
+  }
 }
 
 /* Event listner search button */
