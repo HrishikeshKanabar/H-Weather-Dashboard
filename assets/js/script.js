@@ -8,6 +8,8 @@ Description :
 
 var listOfStoredCity = [];
 var ul = document.getElementById("city-list");
+var currWeathContainer = document.getElementById("currentWeatherCurrent");
+var fiveDay = document.getElementById("fiveDay");
 
 /*
 #######################################################################################
@@ -71,14 +73,24 @@ function getWeatherFromCoordinates(lat, lon, city) {
       getUIOfCurrentWeather(weatherCoords);
       ul.textContent = "";
       getUIFromLocalStorage();
+      getUIForFiveWeatherForecast(data);
     })
     .catch((error) => {
       console.error("Error:", error);
     });
 }
 
+/*
+#######################################################################################
+Function name : getCoordinatesForSearchedCity
+Description :
+
+- Display UI of current weather
+#######################################################################################
+*/
+
 function getUIOfCurrentWeather(currentWeather) {
-  var currWeathContainer = document.getElementById("currentWeatherCurrent");
+  
   currWeathContainer.textContent = "";
   var cardDiv = document.createElement("div");
   cardDiv.classList.add("card");
@@ -121,6 +133,15 @@ function getUIOfCurrentWeather(currentWeather) {
   currWeathContainer.appendChild(cardDiv);
 }
 
+/*
+#######################################################################################
+Function name : setInLocalStorage
+Description :
+
+- Store value in local storage
+#######################################################################################
+*/
+
 function setInLocalStorage(cityName) {
   var checkLocalStore = JSON.parse(localStorage.getItem("storedCities"));
 
@@ -133,6 +154,15 @@ function setInLocalStorage(cityName) {
     localStorage.setItem("storedCities", JSON.stringify(listOfStoredCity));
   }
 }
+
+/*
+#######################################################################################
+Function name : getUIFromLocalStorage
+Description :
+
+- Display UI of History from local storage
+#######################################################################################
+*/
 
 function getUIFromLocalStorage() {
   var storedCities = JSON.parse(localStorage.getItem("storedCities"));
@@ -156,11 +186,82 @@ function getUIFromLocalStorage() {
   }
 }
 
+
+/*
+#######################################################################################
+Function name : getUIForFiveWeatherForecast
+Description :
+
+- Display five weather forecast
+#######################################################################################
+*/
+
+function getUIForFiveWeatherForecast(data){
+
+  fiveDay.textContent="";
+  var fiveForecastTitle = document.createElement("h5");
+  fiveForecastTitle.textContent="5-Day Forecast";
+  fiveDay.appendChild(fiveForecastTitle);
+    for(let i=1;i<6;i++){
+
+        
+        let resData = data.daily[i];
+        console.log(resData);
+        var divCol = document.createElement("div");
+        divCol.classList.add("col-sm-2");
+        var divCard = document.createElement("div");
+        divCard.classList.add("card");
+        divCard.classList.add("five");
+        var divCardBody = document.createElement("div");
+        divCardBody.classList.add("card-body")
+        var cardTitle = document.createElement("h6");
+        cardTitle.classList.add("card-title");
+        cardTitle.textContent =new Date((resData.dt)*1000).getDate()
+        +"/"+new Date((resData.dt)*1000).getMonth()
+        +"/"+new Date((resData.dt)*1000).getFullYear();
+        var carIcon = document.createElement("img");
+        var carIconUrl ="http://openweathermap.org/img/wn/" +
+        resData.weather[0].icon +
+        ".png" ;
+        carIcon.setAttribute("src", carIconUrl);
+        var carTemp = document.createElement("p");
+        carTemp.classList.add("card-subtitle");
+        carTemp.classList.add("mb-2");
+        var temp = Math.round((resData.temp.max)+(resData.temp.min))/2;
+        carTemp.textContent ="Temp: "+ temp + " \xB0F" ;
+        var carWin = document.createElement("p");
+        carWin.classList.add("card-subtitle");
+        carWin.classList.add("mb-2");
+        carWin.textContent="wind: "+ resData.wind_speed+" MPH";
+        var carHum = document.createElement("p");
+        carHum.classList.add("card-subtitle");
+        carHum.classList.add("mb-2");
+        carHum.textContent="Humidity: "+ resData.humidity+" %";
+        divCardBody.appendChild(cardTitle);
+        divCardBody.appendChild(carIcon);
+        divCardBody.appendChild(carTemp);
+        divCardBody.appendChild(carWin);
+        divCardBody.appendChild(carHum);
+        divCard.appendChild(divCardBody)
+        divCol.appendChild(divCard)
+        fiveDay.appendChild(divCol);
+        currWeathContainer.appendChild(fiveDay);
+        
+    }
+
+    
+
+}
+
+/* Event listner search button */
+
 searchButton.addEventListener("click", (e) => {
   e.preventDefault();
   let cityName = document.getElementById("city").value;
   getCoordinatesForSearchedCity(cityName);
 });
+
+/* Event listner history cities */
 
 ul.addEventListener("click", (e) => {
   e.preventDefault();
